@@ -53,8 +53,8 @@ void MaxHeap<T>::add(T node) {
     if(size() == 0) heap.push_back(node);
     else {
         heap.push_back(node);
-        int i = size();
-        int pI = getPIndex(i); // get the first parent index
+        int i = heap.size()-1;
+        int pI = getPIndex(i); // get  parent index
         while(i != 1) {
             if(int(heap.at(pI)) < int(heap.at(i))) {
                 swap(i, pI);
@@ -67,10 +67,10 @@ void MaxHeap<T>::add(T node) {
 
 template <class T>
 T MaxHeap<T>::extract() {
-    if(size() == 0) throw "No element to extract";
+    if(heap.size() == 1) throw "No element to extract";
     else {
         T ans = heap.at(1);
-        swap(1, size());
+        swap(1, heap.size()-1);
         heap.pop_back();
         int i = 1;
         while(getLCIndex(i) < heap.size()) {
@@ -78,7 +78,7 @@ T MaxHeap<T>::extract() {
             if(getRCIndex(i) < heap.size()) {
                 T rVal = heap.at(getRCIndex(i));
                 T lVal = heap.at(getLCIndex(i));
-                if(int(heap.at(rVal)) > int(heap.at(lVal))) {
+                if(int(rVal) > int(lVal)) {
                     j = getRCIndex(i);
                 }
             }
@@ -97,11 +97,10 @@ void MaxHeap<T>::print() {
         std::cout <<"No element in heap" << std::endl;
     } else {
         for(unsigned i = 1; i < heap.size(); i++) {
-            std::cout << int(heap.at(i)) << " ";
+            std::cout << string(heap.at(i)) << " ";
         }
         cout << endl;
     }
-
 }
 
 #endif // MAXHEAP_H
